@@ -6,6 +6,10 @@
   "author": "Bruno Lino <brunolino2026@gmail.com>",
   "license": "MIT",
   "private": false,
+  "scripts": {
+    "test": "npx jest",
+    "test:coverage": "npx jest --coverage"
+  },
   "dependencies": {
     "@types/jest": "^29.4.0",
     "jest": "^29.4.1",
