@@ -40,7 +40,7 @@ function getOneMoreDigit(firstsDigits) {
     const sumTotal = calcTotalValue(firstsDigits);
     const rest = sumTotal % BASE_DIV;
 
-    return isZeroDigit(rest) ? 0 : calcNormalDigit(rest);
+    return isZeroDigit(rest) ? "0" : calcNormalDigit(rest).toString();
 }
 
 export function cpfValidate (cpf: string) {
@@ -58,5 +58,5 @@ export function cpfValidate (cpf: string) {
 
     const eleventhDigit = getOneMoreDigit(cpfFirstsDigits);
 
-    return originalDigits === (tenthDigit.toString() + eleventhDigit.toString());
+    return originalDigits === (tenthDigit + eleventhDigit);
 }
