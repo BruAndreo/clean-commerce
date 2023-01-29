@@ -7,5 +7,9 @@ export default class Coupon {
         return new Coupon(name, validate, percentValue);
     }
 
-    private constructor(name: string, validate: Date, percentValue: number) {}
+    private constructor(readonly name: string, readonly validate: Date, readonly percentValue: number) {}
+
+    public calculateDiscountValue(totalAmount: number) {
+        return parseInt(((totalAmount * this.percentValue) / 100).toFixed(2));
+    }
 }
