@@ -1,61 +1,64 @@
 // @ts-nocheck
-export function validate (str) {
 
-	if (str !== null) {
-        if (str !== undefined) {
-            if (str.length >= 11 || str.length <= 14){
+function removePontuation(cpf: string) {
+    return cpf.replace('.','').replace('.','').replace('-','').trim();
+}
 
-                str=str
-                    .replace('.','')
-                    .replace('.','')
-                    .replace('-','')
-                    .replace(" ","");  
-    
-                if (!str.split("").every(c => c === str[0])) {
-                    try{  
-                        let     d1, d2;  
-                        let     dg1, dg2, rest;  
-                        let     digito;  
-                            let     nDigResult;  
-                        d1 = d2 = 0;  
-                        dg1 = dg2 = rest = 0;  
-                            
-                        for (let nCount = 1; nCount < str.length -1; nCount++) {  
-                            // if (isNaN(parseInt(str.substring(nCount -1, nCount)))) {
-                            // 	return false;
-                            // } else {
-    
-                                digito = parseInt(str.substring(nCount -1, nCount));  							
-                                d1 = d1 + ( 11 - nCount ) * digito;  
-                
-                                d2 = d2 + ( 12 - nCount ) * digito;  
-                            // }
-                        };  
-                            
-                        rest = (d1 % 11);  
-                
-                        dg1 = (rest < 2) ? dg1 = 0 : 11 - rest;  
-                        d2 += 2 * dg1;  
-                        rest = (d2 % 11);  
-                        if (rest < 2)  
-                            dg2 = 0;  
-                        else  
-                            dg2 = 11 - rest;  
-                
-                            let nDigVerific = str.substring(str.length-2, str.length);  
-                        nDigResult = "" + dg1 + "" + dg2;  
-                        return nDigVerific == nDigResult;
-                    }catch (e){  
-                        console.error("Erro !"+e);  
-    
-                        return false;  
-                    }  
-                } else return false
-    
-            }else return false;
-        }
+function isAllSameDigit(cpf: string) {
+    return cpf.split("").every(digit => digit === cpf[0]);
+}
 
+function hasCorrectSize(cpf: string) {
+    return cpf.length >= 11 && cpf.length <= 14;
+}
 
-	} else return false;
+function isZeroDigit(rest: Number) {
+    return rest < BASE_NUM_TO_ZERO_DIGIT;
+}
 
+function calcNormalDigit(rest: Number) {
+    return BASE_NUM_TO_NORMAL_DIGIT - rest
+}
+
+const BASE_DIV = 11;
+const BASE_NUM_TO_ZERO_DIGIT = 2;
+const BASE_NUM_TO_NORMAL_DIGIT = 11;
+
+function calcTotalValue (cpfFirstsDigits) {
+    let baseMult = 2;
+    let sumTotal = 0;
+
+    const cpfCopy = structuredClone(cpfFirstsDigits);
+
+    cpfCopy.reverse().forEach(digit => {
+        sumTotal += (Number.parseInt(digit) * baseMult);
+        baseMult++;
+    });
+
+    return sumTotal;
+}
+
+function getOneMoreDigit(firstsDigits) {
+    const sumTotal = calcTotalValue(firstsDigits);
+    const rest = sumTotal % BASE_DIV;
+
+    return isZeroDigit(rest) ? 0 : calcNormalDigit(rest);
+}
+
+export function validate (cpf: string) {
+    if (!hasCorrectSize(cpf)) return false;
+    const cpfNumbers = removePontuation(cpf);
+    if (isAllSameDigit(cpfNumbers)) return false;
+
+    const cpfLength = cpfNumbers.length;
+
+    const originalDigits = cpfNumbers.substring(cpfLength - 2);
+    const cpfFirstsDigits = cpfNumbers.slice(0, 9).split("");
+
+    const tenthDigit = getOneMoreDigit(cpfFirstsDigits);
+    cpfFirstsDigits.push(tenthDigit);
+
+    const eleventhDigit = getOneMoreDigit(cpfFirstsDigits);
+
+    return originalDigits === (tenthDigit.toString() + eleventhDigit.toString());
 }
