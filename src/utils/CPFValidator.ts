@@ -1,5 +1,3 @@
-// @ts-nocheck
-
 function removePontuation(cpf: string) {
     return cpf.replace('.','').replace('.','').replace('-','').trim();
 }
@@ -12,11 +10,11 @@ function hasCorrectSize(cpf: string) {
     return cpf.length >= 11 && cpf.length <= 14;
 }
 
-function isZeroDigit(rest: Number) {
+function isZeroDigit(rest: number) {
     return rest < BASE_NUM_TO_ZERO_DIGIT;
 }
 
-function calcNormalDigit(rest: Number) {
+function calcNormalDigit(rest: number) {
     return BASE_NUM_TO_NORMAL_DIGIT - rest
 }
 
@@ -45,7 +43,7 @@ function getOneMoreDigit(firstsDigits) {
     return isZeroDigit(rest) ? 0 : calcNormalDigit(rest);
 }
 
-export function validate (cpf: string) {
+export function cpfValidate (cpf: string) {
     if (!hasCorrectSize(cpf)) return false;
     const cpfNumbers = removePontuation(cpf);
     if (isAllSameDigit(cpfNumbers)) return false;
