@@ -2,6 +2,7 @@ import Product from "../models/Product";
 
 export class Item {
 
+    private idItem: number;
     private name: string;
     private description: string;
     private price: number;
@@ -11,11 +12,14 @@ export class Item {
     constructor(idItem: number, quantity: number = 1) {
         const product = this.getItemById(idItem);
 
+        this.idItem = product.getIdItem();
         this.name = product.getName();
         this.description = product.getDescription();
         this.price = product.getPrice();
         this.setQuantity(quantity);
     }
+
+    public getIdItem() { return this.idItem; }
 
     private setQuantity(quantity: number) {
         if (!this.isQuantityPositive(quantity)) throw new Error("Quantity is not valid");

@@ -22,6 +22,8 @@ export default class Product {
         this.price = price;
     }
 
+    getIdItem() { return this.idItem; }
+
     getName() { return this.name; }
 
     getDescription() { return this.description; }

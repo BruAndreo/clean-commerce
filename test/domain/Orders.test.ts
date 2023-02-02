@@ -32,3 +32,10 @@ test("Nao deve fazer um pedido de item com quantidade negativa", () => {
 
     expect(order).toThrowError();
 });
+
+test("Nao deve fazer um pedido com itens iguais", () => {
+    const itens = [new Item(1), new Item(1)]
+    const order = () => new Order(new User("Bruno", "787.436.360-47"), itens);
+
+    expect(order).toThrowError();
+});
