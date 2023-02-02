@@ -1,3 +1,10 @@
+
+const BASE_DIV = 11;
+const BASE_NUM_TO_ZERO_DIGIT = 2;
+const BASE_NUM_TO_NORMAL_DIGIT = 11;
+const FACTOR_TO_TENTH_DIGIT = 10;
+const FACTOR_TO_ELEVENTH_DIGIT = 11;
+
 function clear(cpf: string) {
   return cpf.replace(/\D||[A-Za-z]/g, "");
 }
@@ -21,12 +28,6 @@ function calcNormalDigit(rest: number) {
 function getTwoLastDigits(cpf: string) {
   return cpf.substring(cpf.length - 2);
 }
-
-const BASE_DIV = 11;
-const BASE_NUM_TO_ZERO_DIGIT = 2;
-const BASE_NUM_TO_NORMAL_DIGIT = 11;
-const FACTOR_TO_TENTH_DIGIT = 10;
-const FACTOR_TO_ELEVENTH_DIGIT = 11;
 
 function calcTotalValue (cpfDigits: string, factor: number) {
   let sumTotal = 0;
