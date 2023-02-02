@@ -39,3 +39,15 @@ test("Nao deve fazer um pedido com itens iguais", () => {
 
     expect(order).toThrowError();
 });
+
+test("Nao deve criar um pedido com cupom de desconto expirado", () => {
+    const user = new User("Bruno", "787.436.360-47");
+    const itens = [new Item(1), new Item(2), new Item(3)];
+    
+    const order = () => {
+        const couponDiscount = Coupon.build("Teste", new Date("2022-12-31"), 10);
+        return new Order(user, itens, couponDiscount);
+    }
+    
+    expect(order).toThrowError();
+});
