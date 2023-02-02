@@ -1,5 +1,5 @@
 function removePontuation(cpf: string) {
-  return cpf.replace('.','').replace('.','').replace('-','').trim();
+  return cpf.replace(/\D/g, "");
 }
 
 function isAllSameDigit(cpf: string) {
