@@ -8,7 +8,14 @@ export default class Coupon {
 
   private constructor(readonly name: string, readonly validate: Date, readonly percentValue: number) {}
 
+  private isExpired() {
+    console.log("System Date: ", new Date());
+    console.log("Validate Date: ", this.validate);
+    return this.validate.getTime() < new Date().getTime();
+  }
+
   public calculateDiscountValue(totalAmount: number) {
-      return parseInt(((totalAmount * this.percentValue) / 100).toFixed(2));
+    if (this.isExpired()) throw new Error("Coupon is expired");
+    return parseInt(((totalAmount * this.percentValue) / 100).toFixed(2));
   }
 }

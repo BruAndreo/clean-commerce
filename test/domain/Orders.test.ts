@@ -3,6 +3,10 @@ import { Item } from "../../src/domain/Item";
 import Order from "../../src/domain/Orders";
 import User from "../../src/domain/User";
 
+beforeEach(() => {
+  jest.clearAllMocks();
+});
+
 test("Não deve realizar pedido com Usuario cujo CPF é invalido", () => {
   const order = () => new Order(new User("Bruno", "111.111.222-44"), [new Item(1)]);
 
@@ -47,6 +51,21 @@ test("Nao deve criar um pedido com cupom de desconto expirado", () => {
   const order = () => {
     const couponDiscount = Coupon.build("Teste", new Date("2022-12-31"), 10);
     return new Order(user, itens, couponDiscount);
+  }
+
+  expect(order).toThrowError();
+});
+
+test("Nao deve calcular o valor de um pedido com o cupom expirado", () => {
+  const user = new User("Bruno", "787.436.360-47");
+  const itens = [new Item(1), new Item(2), new Item(3)];
+  const couponDiscount = Coupon.build("Teste", new Date("2023-12-31"), 10);
+
+  jest.useFakeTimers().setSystemTime(new Date("2024-01-05"));
+
+  const order = () => {
+    const order = new Order(user, itens, couponDiscount);
+    return order.totalAmount();
   }
 
   expect(order).toThrowError();
