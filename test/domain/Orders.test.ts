@@ -26,3 +26,9 @@ test("Deve fazer um pedido com 3 itens e um cupon de desconto e calcular o valor
 
     expect(totalAmount).toBe(27);
 });
+
+test("Nao deve fazer um pedido de item com quantidade negativa", () => {
+    const order = () => new Order(new User("Bruno", "787.436.360-47"), [new Item(1, -1)]);
+
+    expect(order).toThrowError();
+});
