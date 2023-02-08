@@ -1,7 +1,7 @@
-import Coupon from "../../src/domain/Coupon";
-import { Item } from "../../src/domain/Item";
-import Order from "../../src/domain/Orders";
-import User from "../../src/domain/User";
+import Coupon from "../../src/application/Coupon";
+import { Item } from "../../src/application/Item";
+import Order from "../../src/application/Orders";
+import User from "../../src/application/User";
 
 beforeEach(() => {
   jest.clearAllMocks();
