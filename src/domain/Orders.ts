@@ -13,7 +13,7 @@ export default class Order {
 
   private setItensList(itensList: Item[]) {
     for (const item of itensList) {
-      const hasRepeat = itensList.filter(i => i.getIdItem() === item.getIdItem());
+      const hasRepeat = itensList.filter(i => i.getIdProduct() === item.getIdProduct());
       if (hasRepeat.length > 1) throw new Error("Item can't be repeated");
     }
     this.itensList = itensList;

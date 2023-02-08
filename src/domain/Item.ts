@@ -1,24 +1,20 @@
-import Product from "../models/Product";
+import Product from "./Product";
+import ProductRepository from "./ProductRepository";
+import ProductsRepositoryJSON from "./ProductsRepositoryJSON";
 
 export class Item {
 
-  private idItem: number;
-  private name: string;
-  private description: string;
+  private product: Product;
   private price: number;
   private quantity!: number;
 
-  constructor(idItem: number, quantity: number = 1) {
-    const product = this.getItemById(idItem);
-
-    this.idItem = product.getIdItem();
-    this.name = product.getName();
-    this.description = product.getDescription();
-    this.price = product.getPrice();
+  constructor(idProduct: number, quantity: number = 1, readonly productRepository: ProductRepository = new ProductsRepositoryJSON()) {
+    this.product = this.getProductById(idProduct);
+    this.price = this.product.getPrice();
     this.setQuantity(quantity);
   }
 
-  public getIdItem() { return this.idItem; }
+  public getIdProduct() { return this.product.getIdItem(); }
 
   private setQuantity(quantity: number) {
     if (!this.isQuantityPositive(quantity)) throw new Error("Quantity is not valid");
@@ -29,8 +25,11 @@ export class Item {
     return quantity > 0;
   }
 
-  private getItemById(idItem: number) {
-    return Product.getById(idItem);
+  private getProductById(idProduct: number) {
+    const product = this.productRepository.getProductById(idProduct);
+
+    if (!product) throw new Error("Product not exist");
+    return product;
   }
 
   public getItemTotalAmount(): number {
