@@ -1,4 +1,3 @@
-import { productsList } from "../infra/database/ProductsDatabase";
 import { ProductDefinition } from "../types/ProductDefinition";
 
 export default class Product {
