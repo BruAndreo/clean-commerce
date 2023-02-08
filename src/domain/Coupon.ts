@@ -9,8 +9,6 @@ export default class Coupon {
   private constructor(readonly name: string, readonly validate: Date, readonly percentValue: number) {}
 
   private isExpired() {
-    console.log("System Date: ", new Date());
-    console.log("Validate Date: ", this.validate);
     return this.validate.getTime() < new Date().getTime();
   }
 
