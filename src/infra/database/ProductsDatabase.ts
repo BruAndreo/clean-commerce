@@ -22,12 +22,12 @@ export const productsList = [
   },
   {
     idProduct: 3,
-    name: "Veja Desengordurante",
-    description: "Desengordutante veja com fragancia de limao",
-    price: 10,
-    height: 18,
-    width: 10,
-    depth: 5,
-    weight: 0.500
+    name: "Caixa Veja Desengordurante",
+    description: "Caixa com 10 Desengordutantes veja com fragancia de limao",
+    price: 100,
+    height: 23.7,
+    width: 38.2,
+    depth: 42.3,
+    weight: 2.670
   },
 ];

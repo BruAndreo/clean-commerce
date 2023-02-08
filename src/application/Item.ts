@@ -4,7 +4,7 @@ import ProductsRepositoryJSON from "./ProductsRepositoryJSON";
 
 export class Item {
 
-  private product: Product;
+  public product: Product;
   private price: number;
   private quantity!: number;
 

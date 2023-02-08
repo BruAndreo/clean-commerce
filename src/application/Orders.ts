@@ -1,4 +1,5 @@
 import Coupon from "./Coupon";
+import Freight from "./Freight";
 import { Item } from "./Item";
 import User from "./User";
 
@@ -21,12 +22,11 @@ export default class Order {
 
   public totalAmount() {
     const fullValue = this.itensList.reduce((accumulator, atualItem) => accumulator + atualItem.getItemTotalAmount(), 0);
-    let discount = 0;
+    const products = this.itensList.map(item => item.product)
+    const freight = new Freight();
+    const freightTax = freight.calcTotalTax(products, 'someplace', 'someplace');
+    const discount = this.couponDiscount ? this.couponDiscount.calculateDiscountValue(fullValue) : 0;
 
-    if (this.couponDiscount) {
-      discount = this.couponDiscount.calculateDiscountValue(fullValue);
-    }
-
-    return fullValue - discount;
+    return (fullValue + freightTax) - discount;
   }
 }

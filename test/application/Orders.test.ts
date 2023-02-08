@@ -17,7 +17,7 @@ test("Deve fazer um pedido com 3 itens e calcular o valor total", () => {
   const order = new Order(new User("Bruno", "787.436.360-47"), [new Item(1), new Item(2), new Item(3)]);
   const totalAmount = order.totalAmount();
 
-  expect(totalAmount).toBe(30);
+  expect(totalAmount).toBe(166.70);
 });
 
 test("Deve fazer um pedido com 3 itens e um cupon de desconto e calcular o valor total", () => {
@@ -28,7 +28,7 @@ test("Deve fazer um pedido com 3 itens e um cupon de desconto e calcular o valor
   const order = new Order(user, itens, couponDiscount);
   const totalAmount = order.totalAmount();
 
-  expect(totalAmount).toBe(27);
+  expect(totalAmount).toBe(154.70);
 });
 
 test("Nao deve fazer um pedido de item com quantidade negativa", () => {
