@@ -11,14 +11,6 @@ export default class Product {
   private _depth!: number;
   private _weight!: number;
 
-  static getById(idProduct: number): Product {
-    const product = productsList.filter(product => product.idProduct === idProduct).at(0);
-
-    if (!product) throw new Error("Product does not exist")
-
-    return new Product(product);
-  }
-
   public constructor(product: ProductDefinition) {
     this.idProduct = product.idProduct;
     this.name = product.name;
