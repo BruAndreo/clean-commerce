@@ -7,7 +7,7 @@ export default class Order {
   private itensList!: Item[]
   private couponDiscount: Coupon | null;
 
-  constructor(readonly user: User, itensList: Item[], couponDiscount: Coupon | null = null) {
+  constructor(readonly user: User, itensList: Item[], couponDiscount: Coupon | null = null, readonly to: string = "someplace", readonly from: string = "someplace") {
     this.setItensList(itensList);
     this.couponDiscount = couponDiscount;
   }
@@ -24,7 +24,7 @@ export default class Order {
     const fullValue = this.itensList.reduce((accumulator, atualItem) => accumulator + atualItem.getItemTotalAmount(), 0);
     const products = this.itensList.map(item => item.product)
     const freight = new Freight();
-    const freightTax = freight.calcTotalTax(products, 'someplace', 'someplace');
+    const freightTax = freight.calcTotalTax(products, this.to, this.from);
     const discount = this.couponDiscount ? this.couponDiscount.calculateDiscountValue(fullValue) : 0;
 
     return (fullValue + freightTax) - discount;

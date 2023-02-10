@@ -31,6 +31,19 @@ test("Deve fazer um pedido com 3 itens e um cupon de desconto e calcular o valor
   expect(totalAmount).toBe(154.70);
 });
 
+test("Deve fazer um pedido e passar informações de retirada(to) e destino(from)", () => {
+  const user = new User("Bruno", "787.436.360-47");
+  const itens = [new Item(1), new Item(2), new Item(3)];
+  const couponDiscount = Coupon.build("Teste", new Date("2030-12-31"), 10);
+  const to = "someplace";
+  const from = "someplace";
+
+  const order = new Order(user, itens, couponDiscount, to, from);
+  const totalAmount = order.totalAmount();
+
+  expect(totalAmount).toBe(154.70);
+});
+
 test("Nao deve fazer um pedido de item com quantidade negativa", () => {
   const order = () => new Order(new User("Bruno", "787.436.360-47"), [new Item(1, -1)]);
 
