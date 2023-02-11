@@ -1,19 +1,32 @@
-export default class Coupon {
-  static build(name: string, validate: Date, percentValue: number) {
-    // percentValue is not less than 0
-    if (validate.getTime() < new Date().getTime()) throw new Error("Coupon is expired");
+import { CouponsType } from "../types/CouponType";
 
-    return new Coupon(name, validate, percentValue);
+export default class Coupon {
+  private description: string;
+  private code: string;
+  private expireDate: Date;
+  private percentDiscount!: number;
+
+  public constructor(coupon: CouponsType) {
+    this.description = coupon.description;
+    this.code = coupon.code;
+    this.expireDate = new Date(coupon.expireDate);
+    this.setPercentDiscount(coupon.percentDiscount);
   }
 
-  private constructor(readonly name: string, readonly validate: Date, readonly percentValue: number) {}
-
   private isExpired() {
-    return this.validate.getTime() < new Date().getTime();
+    return this.expireDate.getTime() < new Date().getTime();
+  }
+
+  private setPercentDiscount(value: number) {
+    if (value <= 0) {
+      this.percentDiscount = 0;
+      throw new Error("Coupon discount not valid");
+    }
+    this.percentDiscount = value;
   }
 
   public calculateDiscountValue(totalAmount: number) {
     if (this.isExpired()) throw new Error("Coupon is expired");
-    return parseInt(((totalAmount * this.percentValue) / 100).toFixed(2));
+    return parseInt(((totalAmount * this.percentDiscount) / 100).toFixed(2));
   }
 }
