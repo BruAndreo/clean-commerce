@@ -1,7 +1,4 @@
-import Coupon from "../../src/application/Coupon";
-import { Item } from "../../src/application/Item";
 import Orders from "../../src/application/Orders";
-import User from "../../src/application/User";
 import { NewOrder } from "../../src/types/NewOrder";
 
 beforeEach(() => {

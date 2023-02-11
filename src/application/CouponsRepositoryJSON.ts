@@ -1,5 +1,4 @@
 import { couponsList } from "../infra/database/CouponsDatabase";
-import { CouponsType } from "../types/CouponType";
 import Coupon from "./Coupon";
 import CouponsRepository from "./CouponsRepository";
 
