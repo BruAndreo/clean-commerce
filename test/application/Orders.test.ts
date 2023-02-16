@@ -1,3 +1,4 @@
+import OrderRepositoryJSON from "../../src/application/OrderRepositoryJSON";
 import Orders from "../../src/application/Orders";
 import { NewOrder } from "../../src/types/NewOrder";
 
@@ -135,4 +136,24 @@ test("Nao deve calcular o valor de um pedido com o cupom expirado", () => {
   };
 
   expect(orderResult).toThrowError();
+});
+
+test("Deve gerar um codigo de pedido", () => {
+  const stub = jest.spyOn(OrderRepositoryJSON.prototype, "getSequence").mockReturnValue(1);
+
+  const orderRaw: NewOrder = {
+    user: { name: "Bruno", cpf: "787.436.360-47" },
+    itens: [
+      { idProduct: 1, quantity: 1 }
+    ],
+    coupon: "CUPOM20",
+    to: "someplace",
+    from: "someplace",
+  };
+  const order = new Orders();
+  order.create(orderRaw);
+
+  const year = new Date().getFullYear();
+
+  expect(order.getCode()).toBe(`${year}00000001`);
 });
