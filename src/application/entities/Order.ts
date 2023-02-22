@@ -34,6 +34,10 @@ export default class Order {
 
   public getCode() { return this.code; }
 
+  public getProducts() {
+    return this.itens.map(item => item.product);
+  }
+
   public totalAmount() {
     return this.itens.reduce((accumulator, atualItem) => accumulator + atualItem.getItemTotalAmount(), 0);
   }

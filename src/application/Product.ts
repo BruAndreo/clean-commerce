@@ -30,4 +30,12 @@ export default class Product {
   public getDescription() { return this.description; }
 
   public getPrice() { return this.price; }
+
+  public getVolume() {
+    return (this.height / 100) * (this.width / 100) * (this.depth / 100);
+  }
+
+  public getDensity() {
+    return this.weight / this.getVolume();
+  }
 }

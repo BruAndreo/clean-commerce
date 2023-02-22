@@ -2,6 +2,7 @@ import { NewOrder, ProductItem } from "../../types/NewOrder";
 import CouponsRepository from "../CouponsRepository";
 import CouponsRepositoryJSON from "../CouponsRepositoryJSON";
 import Order from "../entities/Order";
+import Freight from "../Freight";
 import OrderRepository from "../OrderRepository";
 import OrderRepositoryJSON from "../OrderRepositoryJSON";
 import Orders from "../Orders";
@@ -40,7 +41,9 @@ export default class Checkout {
       }
     }
 
-    // validar cupom de desconto e carregar se valido
+    const freight = new Freight();
+    const freightTax = freight.calcTotalTax(this.order.getProducts(), to, from);
+
     // calcular frete
     // salvar order
     // salvar itens
@@ -50,7 +53,8 @@ export default class Checkout {
       code: this.order.getCode(),
       totalAmount: this.order.totalAmount(),
       discount: this.order.getDiscount(),
-      total: this.order.total()
+      freight: freightTax,
+      total: this.order.total() + freightTax
     };
   }
 
