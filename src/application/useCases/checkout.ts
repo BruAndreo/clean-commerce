@@ -5,7 +5,6 @@ import Order from "../entities/Order";
 import Freight from "../Freight";
 import OrderRepository from "../OrderRepository";
 import OrderRepositoryJSON from "../OrderRepositoryJSON";
-import Orders from "../Orders";
 import Product from "../Product";
 import ProductRepository from "../ProductRepository";
 import ProductsRepositoryJSON from "../ProductsRepositoryJSON";

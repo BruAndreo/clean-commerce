@@ -15,10 +15,30 @@ export default class Product {
     this.name = product.name;
     this.description = product.description;
     this.price = product.price;
-    this.height = product.height;
-    this.width = product.width;
-    this.depth = product.depth;
-    this.weight = product.weight;
+    this.setHeight(product.height);
+    this.setWidth(product.width);
+    this.setDepth(product.depth);
+    this.setWeight(product.weight);
+  }
+
+  private setHeight(height: number) {
+    if (height <= 0) throw new Error("Height can't be equal or less than zero");
+    this.height = height;
+  }
+
+  private setWidth(width: number) {
+    if (width <= 0) throw new Error("Width can't be equal or less than zero");
+    this.width = width;
+  }
+
+  private setWeight(weight: number) {
+    if (weight <= 0) throw new Error("Weight can't be equal or less than zero");
+    this.weight = weight;
+  }
+
+  private setDepth(depth: number) {
+    if (depth <= 0) throw new Error("Depth can't be equal or less than zero");
+    this.depth = depth;
   }
 
   public getId() { return this.idProduct; }

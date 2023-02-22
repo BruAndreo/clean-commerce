@@ -165,8 +165,6 @@ test("Deve criar um pedido e calcular o valor de frete", async () => {
   expect(order.total).toBe(166.70);
 });
 
-test.todo("Deve criar um pedido e calcular o valor de frete minimo");
-
 // test.skip("Deve criar um pedido e inserir no banco de dados", async () => {
 //   const checkout = new Checkout();
 //   const getOrder = new GetOrder();
