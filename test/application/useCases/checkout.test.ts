@@ -50,7 +50,7 @@ test("Deve gerar um codigo de pedido", async () => {
     itens: [
       { idProduct: 1, quantity: 1 }
     ],
-    coupon: "CUPOM20",
+    coupon: null,
     to: "someplace",
     from: "someplace",
   };
@@ -98,6 +98,51 @@ test("Nao deve fazer um pedido de item com quantidade negativa", async () => {
 
   await expect(result).rejects.toThrow(new Error("Quantity is not valid"));;
 });
+
+test("Deve criar um pedido com cupom de desconto e calcular o valor de desconto", async () => {
+  const orderRaw: NewOrder = {
+    user: { name: "Bruno", cpf: "787.436.360-47" },
+    itens: [
+      { idProduct: 1, quantity: 1 },
+      { idProduct: 2, quantity: 1 },
+      { idProduct: 3, quantity: 1 }
+    ],
+    coupon: "CUPOM10",
+    to: "someplace",
+    from: "someplace",
+  };
+
+  const checkout = new Checkout();
+  const order = await checkout.createOrder(orderRaw);
+
+  expect(order.totalAmount).toBe(120.00);
+  expect(order.discount).toBe(12.00);
+  expect(order.total).toBe(108.00);
+});
+
+test("Deve criar um pedido com cupom de desconto expirado mas nao calcular o desconto", async () => {
+  const orderRaw: NewOrder = {
+    user: { name: "Bruno", cpf: "787.436.360-47" },
+    itens: [
+      { idProduct: 1, quantity: 1 },
+      { idProduct: 2, quantity: 1 },
+      { idProduct: 3, quantity: 1 }
+    ],
+    coupon: "CUPOM20",
+    to: "someplace",
+    from: "someplace",
+  };
+
+  const checkout = new Checkout();
+  const order = await checkout.createOrder(orderRaw);
+
+  expect(order.totalAmount).toBe(120.00);
+  expect(order.discount).toBe(0);
+  expect(order.total).toBe(120.00);
+});
+
+test.todo("Deve criar um pedido e calcular o valor de frete");
+test.todo("Deve criar um pedido e calcular o valor de frete minimo");
 
 // test.skip("Deve criar um pedido e inserir no banco de dados", async () => {
 //   const checkout = new Checkout();

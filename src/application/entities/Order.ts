@@ -38,6 +38,15 @@ export default class Order {
     return this.itens.reduce((accumulator, atualItem) => accumulator + atualItem.getItemTotalAmount(), 0);
   }
 
+  public getDiscount() {
+    if (!this.coupon) return 0;
+    return this.coupon.calculateDiscountValue(this.totalAmount())
+  }
+
+  public total() {
+    return this.totalAmount() - this.getDiscount();
+  }
+
 }
 
 type productItem = {

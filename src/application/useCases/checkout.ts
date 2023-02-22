@@ -1,4 +1,6 @@
 import { NewOrder, ProductItem } from "../../types/NewOrder";
+import CouponsRepository from "../CouponsRepository";
+import CouponsRepositoryJSON from "../CouponsRepositoryJSON";
 import Order from "../entities/Order";
 import OrderRepository from "../OrderRepository";
 import OrderRepositoryJSON from "../OrderRepositoryJSON";
@@ -11,22 +13,32 @@ import User from "../User";
 export default class Checkout {
   private orderRespository: OrderRepository;
   private productRepository: ProductRepository;
+  private couponRepository: CouponsRepository;
 
   private user!: User;
   private order!: Order;
 
   constructor(
     orderRepository: OrderRepository = new OrderRepositoryJSON(),
-    productRespotory: ProductRepository = new ProductsRepositoryJSON()
+    productRepository: ProductRepository = new ProductsRepositoryJSON(),
+    couponRepository: CouponsRepository = new CouponsRepositoryJSON()
   ) {
     this.orderRespository = orderRepository;
-    this.productRepository = productRespotory;
+    this.productRepository = productRepository;
+    this.couponRepository = couponRepository;
   }
 
   public async createOrder(orderInput: NewOrder) {
     const {user, itens, coupon, to, from} = orderInput;
     this.user = new User(user.name, user.cpf);
     this.order = new Order(await this.prepareItens(itens), await this.orderRespository.getSequence() + 1);
+
+    if (coupon) {
+      const couponLoaded = await this.couponRepository.getCouponByCode(coupon);
+      if (couponLoaded) {
+        this.order.setCoupon(couponLoaded);
+      }
+    }
 
     // validar cupom de desconto e carregar se valido
     // calcular frete
@@ -36,7 +48,9 @@ export default class Checkout {
 
     return {
       code: this.order.getCode(),
-      totalAmount: this.order.totalAmount()
+      totalAmount: this.order.totalAmount(),
+      discount: this.order.getDiscount(),
+      total: this.order.total()
     };
   }
 
