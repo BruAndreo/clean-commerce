@@ -34,3 +34,5 @@ test("Deve calcular o frete de um produto e se o valor for inferior ao minimo, r
 
   expect(value).toBe(10);
 });
+
+test.todo("Deve calcular o frete de um produto com mais de uma quantidade");

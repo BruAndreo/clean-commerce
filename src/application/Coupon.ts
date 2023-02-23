@@ -1,12 +1,14 @@
 import { CouponsType } from "../types/CouponType";
 
 export default class Coupon {
+  private idCoupon: number;
   private description: string;
   private code: string;
   private expireDate: Date;
   private percentDiscount!: number;
 
   public constructor(coupon: CouponsType) {
+    this.idCoupon = coupon.id_coupon;
     this.description = coupon.description;
     this.code = coupon.code;
     this.expireDate = new Date(coupon.expireDate);
@@ -26,7 +28,7 @@ export default class Coupon {
   }
 
   public calculateDiscountValue(totalAmount: number) {
-    if (this.isExpired()) throw new Error("Coupon is expired");
+    if (this.isExpired()) return 0;
     return parseInt(((totalAmount * this.percentDiscount) / 100).toFixed(2));
   }
 }

@@ -5,41 +5,43 @@ export default class Product {
   private name: string;
   private description: string;
   private price: number;
-  private _height!: number;
-  private _width!: number;
-  private _depth!: number;
-  private _weight!: number;
+  private height!: number;
+  private width!: number;
+  private depth!: number;
+  private weight!: number;
 
   public constructor(product: ProductDefinition) {
     this.idProduct = product.idProduct;
     this.name = product.name;
     this.description = product.description;
     this.price = product.price;
-    this.height = product.height;
-    this.width = product.width;
-    this.depth = product.depth;
-    this.weight = product.weight;
+    this.setHeight(product.height);
+    this.setWidth(product.width);
+    this.setDepth(product.depth);
+    this.setWeight(product.weight);
   }
 
-  private set height(height: number) {
+  private setHeight(height: number) {
     if (height <= 0) throw new Error("Height can't be equal or less than zero");
-    this._height = height;
+    this.height = height;
   }
 
-  private set width(width: number) {
+  private setWidth(width: number) {
     if (width <= 0) throw new Error("Width can't be equal or less than zero");
-    this._width = width;
+    this.width = width;
   }
 
-  private set depth(depth: number) {
-    if (depth <= 0) throw new Error("Depth can't be equal or less than zero");
-    this._depth = depth;
-  }
-
-  private set weight(weight: number) {
+  private setWeight(weight: number) {
     if (weight <= 0) throw new Error("Weight can't be equal or less than zero");
-    this._weight = weight;
+    this.weight = weight;
   }
+
+  private setDepth(depth: number) {
+    if (depth <= 0) throw new Error("Depth can't be equal or less than zero");
+    this.depth = depth;
+  }
+
+  public getId() { return this.idProduct; }
 
   public getIdItem() { return this.idProduct; }
 
@@ -49,11 +51,11 @@ export default class Product {
 
   public getPrice() { return this.price; }
 
-  public get height() { return this._height; }
+  public getVolume() {
+    return (this.height / 100) * (this.width / 100) * (this.depth / 100);
+  }
 
-  public get width() { return this._width; }
-
-  public get weight() { return this._weight; }
-
-  public get depth() { return this._depth; }
+  public getDensity() {
+    return this.weight / this.getVolume();
+  }
 }
