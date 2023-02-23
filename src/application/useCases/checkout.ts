@@ -7,6 +7,7 @@ import OrderRepository from "../OrderRepository";
 import OrderRepositoryJSON from "../OrderRepositoryJSON";
 import Product from "../Product";
 import ProductRepository from "../ProductRepository";
+import ProductRepositoryDatabase from "../ProductsRepositoryDatabase";
 import ProductsRepositoryJSON from "../ProductsRepositoryJSON";
 import User from "../User";
 
@@ -20,7 +21,7 @@ export default class Checkout {
 
   constructor(
     orderRepository: OrderRepository = new OrderRepositoryJSON(),
-    productRepository: ProductRepository = new ProductsRepositoryJSON(),
+    productRepository: ProductRepository = new ProductRepositoryDatabase(),
     couponRepository: CouponsRepository = new CouponsRepositoryJSON()
   ) {
     this.orderRespository = orderRepository;
@@ -74,7 +75,7 @@ export default class Checkout {
   }
 
   private async getProduct(idProduct: number): Promise<Product> {
-    const product = this.productRepository.getProductById(idProduct);
+    const product = await this.productRepository.getProductById(idProduct);
     if (!product) throw new Error("Product not exist");
     return product;
   }

@@ -1,6 +1,6 @@
 import Product from "./Product";
 
 export default interface ProductRepository {
-  getAllProducts(): Product[];
-  getProductById(idProduct: number): Product | null;
+  getAllProducts(): Product[] | Promise<Product[]>;
+  getProductById(idProduct: number): Product | null | Promise<Product | null>;
 }
