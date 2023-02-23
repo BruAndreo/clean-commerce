@@ -44,10 +44,8 @@ export default class Checkout {
     const freight = new Freight();
     const freightTax = freight.calcTotalTax(this.order.getProducts(), to, from);
 
-    // calcular frete
     // salvar order
     // salvar itens
-    // retornar { code, totalAmount, discount, freight, total }
 
     return {
       code: this.order.getCode(),

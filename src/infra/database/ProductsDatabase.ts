@@ -28,6 +28,6 @@ export const productsList = [
     height: 23.7,
     width: 38.2,
     depth: 42.3,
-    weight: 2.670
+    weight: 2.67
   },
 ];
