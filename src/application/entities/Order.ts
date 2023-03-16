@@ -5,7 +5,7 @@ import Product from "../Product";
 
 export default class Order {
   private code!: string;
-  private itens: Item[] = [];
+  public itens: Item[] = [];
   private coupon!: Coupon | null;
   // private freight: Freight;
 
@@ -24,12 +24,15 @@ export default class Order {
     const year = new Date().getFullYear();
     const sequenceBase = "00000000";
     const zeroSequence = sequenceBase.substring(0, sequenceBase.length - sequenceOrder.length);
-
     this.code = `${year}${zeroSequence}${sequenceOrder}`;
   }
 
   public setCoupon(coupon: Coupon) {
     this.coupon = coupon;
+  }
+
+  public getCouponId() {
+    return this.coupon ? this.coupon.getId() : null
   }
 
   public getCode() { return this.code; }

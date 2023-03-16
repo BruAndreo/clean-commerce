@@ -4,7 +4,8 @@ import CouponsRepositoryJSON from "../CouponsRepositoryJSON";
 import Order from "../entities/Order";
 import Freight from "../Freight";
 import OrderRepository from "../OrderRepository";
-import OrderRepositoryJSON from "../OrderRepositoryJSON";
+import OrderRepositoryDatabase from "../OrderRepositoryDatabase";
+// import OrderRepositoryJSON from "../OrderRepositoryJSON";
 import Product from "../Product";
 import ProductRepository from "../ProductRepository";
 import ProductRepositoryDatabase from "../ProductsRepositoryDatabase";
@@ -20,7 +21,7 @@ export default class Checkout {
   private order!: Order;
 
   constructor(
-    orderRepository: OrderRepository = new OrderRepositoryJSON(),
+    orderRepository: OrderRepository = new OrderRepositoryDatabase(),
     productRepository: ProductRepository = new ProductRepositoryDatabase(),
     couponRepository: CouponsRepository = new CouponsRepositoryJSON()
   ) {
@@ -32,7 +33,9 @@ export default class Checkout {
   public async createOrder(orderInput: NewOrder) {
     const {user, itens, coupon, to, from} = orderInput;
     this.user = new User(user.name, user.cpf);
-    this.order = new Order(await this.prepareItens(itens), await this.orderRespository.getSequence() + 1);
+    const productItens = await this.prepareItens(itens);
+    const sequenceBase = await this.orderRespository.getSequence() + 1
+    this.order = new Order(productItens, sequenceBase);
 
     if (coupon) {
       const couponLoaded = await this.couponRepository.getCouponByCode(coupon);
@@ -44,7 +47,7 @@ export default class Checkout {
     const freight = new Freight();
     const freightTax = freight.calcTotalTax(this.order.getProducts(), to, from);
 
-    // salvar order
+    await this.orderRespository.save(this.mapOrderToSave(to, from));
     // salvar itens
 
     return {
@@ -77,9 +80,37 @@ export default class Checkout {
     if (!product) throw new Error("Product not exist");
     return product;
   }
+
+  private mapOrderToSave(to: string, from: string): saveOrder {
+    return {
+      code: this.order.getCode(),
+      cpf: this.user.cpf,
+      location_to: to,
+      location_from: from,
+      coupon: this.order.getCouponId(),
+      itens: this.order.getProducts().map(product => ({
+        idProduct: product.getId(),
+        price: product.getPrice(),
+        quantity: 1
+      }))
+    }
+  }
 }
 
 type productItem = {
   product: Product,
   quantity: number
 }
+
+type saveOrder = {
+  code: string,
+  cpf: string,
+  location_to: string,
+  location_from: string,
+  coupon: number | null,
+  itens: {
+    idProduct: number,
+    price: number,
+    quantity: number
+  }[]
+};

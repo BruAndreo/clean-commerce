@@ -21,9 +21,9 @@ export default class Database {
     connection.$pool.end()
   }
 
-  protected async query(query: string) {
+  protected async query(query: string, params: any = []) {
     const conn = this.openConnection()
-    const result = await conn.query(query);
+    const result = await conn.query(query, params);
     await this.closeConnection(conn);
     return result;
   }

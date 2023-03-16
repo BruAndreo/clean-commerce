@@ -165,23 +165,23 @@ test("Deve criar um pedido e calcular o valor de frete", async () => {
   expect(order.total).toBe(166.70);
 });
 
-// test.skip("Deve criar um pedido e inserir no banco de dados", async () => {
-//   const checkout = new Checkout();
-//   const getOrder = new GetOrder();
-//   const orderRaw: NewOrder = {
-//     user: { name: "Bruno", cpf: "787.436.360-47" },
-//     itens: [
-//       { idProduct: 1, quantity: 1 }
-//     ],
-//     coupon: "CUPOM20",
-//     to: "someplace",
-//     from: "someplace",
-//   };
+test.only("Deve criar um pedido e inserir no banco de dados", async () => {
+  const checkout = new Checkout();
+  // const getOrder = new GetOrder();
+  const orderRaw: NewOrder = {
+    user: { name: "Bruno", cpf: "787.436.360-47" },
+    itens: [
+      { idProduct: 1, quantity: 1 }
+    ],
+    coupon: "CUPOM20",
+    to: "someplace",
+    from: "someplace",
+  };
 
-//   await checkout.createOrder(orderRaw);
-//   const order = await getOrder.byId(checkout.idOrder);
+  await checkout.createOrder(orderRaw);
+  // const order = await getOrder.byId(checkout.idOrder);
 
-//   expect(order).toBeTruthy();
-// });
+  // expect(order).toBeTruthy();
+});
 
 test.todo("Nao deve inserir um pedido com erro no banco de dados");

@@ -15,6 +15,8 @@ export default class Coupon {
     this.setPercentDiscount(coupon.percentDiscount);
   }
 
+  public getId() { return this.idCoupon; }
+
   private isExpired() {
     return this.expireDate.getTime() < new Date().getTime();
   }
