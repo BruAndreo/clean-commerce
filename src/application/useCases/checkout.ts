@@ -5,11 +5,9 @@ import Order from "../entities/Order";
 import Freight from "../Freight";
 import OrderRepository from "../OrderRepository";
 import OrderRepositoryDatabase from "../OrderRepositoryDatabase";
-// import OrderRepositoryJSON from "../OrderRepositoryJSON";
 import Product from "../Product";
 import ProductRepository from "../ProductRepository";
 import ProductRepositoryDatabase from "../ProductsRepositoryDatabase";
-import ProductsRepositoryJSON from "../ProductsRepositoryJSON";
 import User from "../User";
 
 export default class Checkout {
@@ -48,7 +46,6 @@ export default class Checkout {
     const freightTax = freight.calcTotalTax(this.order.getProducts(), to, from);
 
     await this.orderRespository.save(this.mapOrderToSave(to, from));
-    // salvar itens
 
     return {
       code: this.order.getCode(),
